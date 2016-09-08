@@ -1,0 +1,52 @@
+
+
+img.i {
+	height: 500px;
+	width: 500px;
+	border-radius: 200%;
+	border: 3px double red;
+}
+img.c {
+	box-shadow: 10px 12px 12px black;
+}
+
+a {
+	display: block;
+}
+
+.contact {
+	text-align: center;
+	background-color: red;
+	color: wheat;
+}
+.about {
+	/*display: inline-block;*/
+	text-align: center;
+	background-color: orange;
+	color: black;
+	height: 700px;
+	width: 700px;
+	border-radius: 200%;
+	box-shadow: 10px 12px 12px black;
+}
+.index {
+	display: inline-block;
+	text-align: center;
+	background-color: lightblue;
+	color: red;
+}
+body.c {
+	background-color: red;
+}
+body.i {
+	background-color: lightblue;
+}
+body.a {
+	background-color: brown;
+}
+.navbar {
+	/*background-color: yellow;*/
+	background: linear-gradient(to right, black , transparent);
+	border: none;
+}
+

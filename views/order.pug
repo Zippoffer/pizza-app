@@ -1,0 +1,42 @@
+extends partials/layout.pug
+
+block content
+	body.d
+	.heading
+		h1 Order a Pizza Fool!!!
+	.order
+
+			
+			
+
+			img.c(src='https://s-media-cache-ak0.pinimg.com/236x/a6/17/7a/a6177a0244fac4a1bf149796680caf82.jpg' height="300" width="300")
+
+
+			.order-form
+				form(method="POST")
+					.form-group
+						label(for='name') Name
+						input.form-control#name(type='text',name = "name", placeholder='John Doe')
+					.form-group
+						label(for='email') Email Address
+						input.form-control#email(type='email',name = 'email', placeholder='you@example.com')
+					.form-group
+						label(for='phone') Phone Number
+						input.form-control#phone(type='phone',name = 'phone' placeholder='234-567-8901')
+					.form-group
+						label(for='size') size
+						select.form-control#size(name="size")
+							option
+								each size in sizes
+									option(value=size.name name="size") #{size.name}: #{size.inches}
+					.form-group
+						each topping in toppings
+							div.checkbox
+								label(for='topping')
+									br
+									input.form-control#topping(value=topping.name type="checkbox" name="toppings")
+									| #{topping.name}
+											
+					.order-form__submit
+						a.btn.btn-danger.btn-lg(href="/order") Cancel
+						input.btn.btn-success.btn-lg(type='submit' value='Submit')

@@ -35,6 +35,9 @@ a {
 	background-color: lightblue;
 	color: red;
 }
+body.d {
+	background-color: orange;
+}
 body.c {
 	background-color: red;
 }

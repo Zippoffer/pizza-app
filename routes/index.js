@@ -2,10 +2,14 @@
 
 const {Router} = require('express')
 const router = Router()
-const {db} = require('../database')
+// const {db} = require('../database')
+const contact = require('../models/contact')
+const order = require('../models/order')
+const size = require('../models/size')
+const topping = require('../models/topping')
 
 
-				// routes\\
+        // routes\\
 router.get('/', (req, res) => {
   // res.send('this is the pizza')
   res.render('index', {
@@ -27,16 +31,62 @@ router.get('/contact', (req, res) => {
   })
 })
 
+
+// const mongoose = require('mongoose')
+// const contact = mongoose.model('contact')
+
+
 router.post('/contact', (req, res) => {
-  // res.send('this is the contact')
-  db().collection('contact')
-  .insertOne(req.body)
+  const msg = new contact(req.body)
+  msg.save()
+
   .then(()=> res.redirect('/'))
-  .catch(()=> res.send('BAD'))
-  // console.log(req.body)
-  // res.redirect('/')
-  // res.send(req.body)
+  // .catch(()=> res.send('BAD'))
+  .catch(next)
+
 })
+
+
+
+// router.get('/order', (req, res) => {
+//   size.find()
+//   .sort({inches: 1})
+//   .then( (sizes)=>res.render('order', {page: "order", sizes:sizes}))
+//   .catch(console.error)
+// })
+
+
+router.get('/order', (req, res) => {
+  Promise
+    .all([
+    size.find()
+    .sort({inches: 1}),
+    topping.find()
+    .sort({name: 1})
+    ])
+
+    .then(([sizes, toppings])=>res.render('order', {page: "order", sizes:sizes, toppings:toppings}))
+    .catch(console.error)
+})
+
+
+
+
+router.post('/order', (req, res, err)=> {
+  order
+    .create(req.body)
+    .then(()=> res.redirect('/'))
+    .catch(err)
+  // res.redirect('/')
+})
+// router.post('/contact', (req, res) => {
+
+//   db().collection('contact')
+//   .insertOne(req.body)
+//   .then(()=> res.redirect('/'))
+//   .catch(()=> res.send('BAD'))
+
+// })
 
 
 module.exports = router

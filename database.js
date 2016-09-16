@@ -18,7 +18,7 @@ mongoose.Promise = Promise
 
 
 
-// 'mongodb://Zippoffer:Tidaholm@ds033036.mlab.com:33036/pugspizza'
+
 
 module.exports.connect = ()=> mongoose.connect(MONGODB_URL)//.then(_db => db = _db)
 module.exports.disconnect = ()=> mongoose.disconnect()//.then(_db => db = _db)

@@ -16,19 +16,19 @@ block content
 				form(method="POST")
 					.form-group
 						label(for='name') Name
-						input.form-control#name(type='text',name = "name", placeholder='John Doe')
+						input.form-control#name(type='text',name = "name", placeholder='John Doe' required)
 					.form-group
 						label(for='email') Email Address
-						input.form-control#email(type='email',name = 'email', placeholder='you@example.com')
+						input.form-control#email(type='email',name = 'email', placeholder='you@example.com' required)
 					.form-group
 						label(for='phone') Phone Number
-						input.form-control#phone(type='phone',name = 'phone' placeholder='234-567-8901')
+						input.form-control#phone(type='phone',name = 'phone' placeholder='234-567-8901' required)
 					.form-group
 						label(for='size') size
-						select.form-control#size(name="size")
+						select.form-control#size(name="size" required)
 							option
 								each size in sizes
-									option(value=size.name name="size") #{size.name}: #{size.inches}
+									option(value=size.inches name="size") #{size.name}: #{size.inches}
 					.form-group
 						each topping in toppings
 							div.checkbox

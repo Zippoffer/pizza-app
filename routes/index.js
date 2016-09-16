@@ -77,6 +77,7 @@ router.post('/order', (req, res, err)=> {
     .create(req.body)
     .then(()=> res.redirect('/'))
     .catch(err)
+    console.log(err)
   // res.redirect('/')
 })
 // router.post('/contact', (req, res) => {

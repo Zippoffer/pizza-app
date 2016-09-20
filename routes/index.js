@@ -39,35 +39,8 @@ router.get('/login', (req, res) => {
 })
 
 
-// router.post('/login', (req, res) =>{
-//   if(req.body.password ==='password'){
-//     res.redirect('/')
-//   }else {
-//     res.render('login', { error: 'Email and password combination does not match'})
-//   }
-//   })
 
-
-// router.post('/login', ({ body: { email, password } }, res, err) => {
-//   User.findOne({ email })
-//     .then(user => {
-//       if (user) {
-//         bcrypt.compare(password, user.password, (err, matches) => {
-//           // err ?
-//           if (matches) {
-//             res.redirect('/')
-//           } else {
-//             res.render('login', { msg: 'Password does not match' })
-//           }
-//         })
-//       } else {
-//         res.render('login', { msg: 'Email does not exist in our system' })
-//       }
-//     })
-//   .catch(err)
-// })
-
-router.post('/login', ({ body: { email, password } }, res, err) => {
+router.post('/login', ({session, body: { email, password } }, res, err) => {
   User.findOne({ email })
     .then(user => {
       if (user) {
@@ -86,6 +59,7 @@ router.post('/login', ({ body: { email, password } }, res, err) => {
     })
     .then((matches) => {
       if (matches) {
+        session.email = email
         res.redirect('/')
       } else {
         res.render('login', { msg: 'Password does not match' })
@@ -101,19 +75,6 @@ router.get('/register', (req, res) => {
     title: 'register'
   })
 })
-
-// router.post('/register', (req, res, err) =>{
-//   console.log('msg')
-//   if(req.body.password === req.body.confirmation){
-//   login
-//     .create(req.body)
-//     .then(()=>res.redirect('/'))
-//     .catch(err)
-//   }else {
-//     res.render('register', { msg: 'email is already registered'})
-//   }
-//     console.log('hello')
-//   })
 
 
 router.post('/register', ({ body: { email, password, confirmation } }, res, err) => {
@@ -158,34 +119,23 @@ router.post('/contact', (req, res) => {
 })
 
 
-// router.get('/logout', (req, res)=> res.render('logout', {page: 'Logout'}))
-
-router.get('/logout', (req, res) => {
-  if (req.session.email) {
-    res.render('logout', { page: 'Logout'})
-  } else {
-    res.redirect('/login')
-  }
-})
-// router.post('/logout', (req, res) => {
-//   // logout
-//   res.redirect('/login', { msg: 'You have successfully logged out' })
-// })
-
-
 router.post('/logout', (req, res) => {
   req.session.destroy(err => {
     if (err) throw err
     res.redirect('/login')
   })
 })
-// router.get('/order', (req, res) => {
-//   size.find()
-//   .sort({inches: 1})
-//   .then( (sizes)=>res.render('order', {page: "order", sizes:sizes}))
-//   .catch(console.error)
-// })
 
+
+////guard middleware\\\\\
+router.use((req, res, next) => {
+  console.log(req.session)
+  if (req.session.email) {
+    next()
+  } else {
+    res.redirect('/login')
+  }
+})
 
 router.get('/order', (req, res) => {
   Promise
@@ -200,9 +150,6 @@ router.get('/order', (req, res) => {
     .catch(console.error)
 })
 
-
-
-
 router.post('/order', (req, res, err)=> {
   order
     .create(req.body)
@@ -213,14 +160,17 @@ router.post('/order', (req, res, err)=> {
 })
 
 
-// router.post('/contact', (req, res) => {
-
-//   db().collection('contact')
-//   .insertOne(req.body)
-//   .then(()=> res.redirect('/'))
-//   .catch(()=> res.send('BAD'))
-
+// router.get('/logout', (req, res) => {
+//   if (req.session.email) {
+//     res.render('logout', { page: 'Logout'})
+//   } else {
+//     res.redirect('/login')
+//   }
 // })
+router.get('/logout', (req, res) =>
+  res.render('logout', { page: 'Logout'})
+)
+
 
 
 module.exports = router

@@ -24,10 +24,17 @@ app.set('port', process.env.PORT || 3000) //sets port
 
 //middlewares\\
 
+// app.use(session({
+//     store: new RedisStore(),
+//     secret: 'pugspizzasecretkey'
+// }));
+
 app.use(session({
-    store: new RedisStore(),
-    secret: 'pugspizzasecretkey'
-}));
+  store: new RedisStore({
+    url: process.env.REDIS_URL || 'redis://localhost:6379'
+  }),
+  secret: 'pugspizzasecretkey'
+}))
 
 app.use(express.static('public'));
 

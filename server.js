@@ -6,8 +6,8 @@ const bodyParser = require('body-parser')
 const chalk = require('chalk')
 const {connect} = require('./database')
 const routes = require('./routes/') //same as ./routes/index
-
-
+const session = require('express-session')
+const RedisStore = require('connect-redis')(session)
 
 
     //pug environment
@@ -24,8 +24,19 @@ app.set('port', process.env.PORT || 3000) //sets port
 
 //middlewares\\
 
-app.use(express.static('public'));
+// app.use(session({
+//     store: new RedisStore(),
+//     secret: 'pugspizzasecretkey'
+// }));
 
+app.use(session({
+  store: new RedisStore({
+    url: process.env.REDIS_URL || 'redis://localhost:6379'
+  }),
+  secret: 'pugspizzasecretkey'
+}))
+
+app.use(express.static('public'));
 
 app.use(bodyParser.urlencoded({
     extended: false
